@@ -22,9 +22,9 @@ function App() {
     }
   }
       useEffect(()=>{
-      console.log("jello")
+      console.log("jello");
       
-      handlers.getPhoneList();
+       handlers.getPhoneList();
       },[])
 
   return (
@@ -41,7 +41,7 @@ function App() {
        <br/>
 
        <ul  style={{width:"550px"}}>
-       {phonelist.map((i)=><li>{i.name} {i.number}</li>)}
+       {/* {phonelist?.map((i)=><li>{i.name} {i.number}</li>)} */}
        </ul>
        {phoneInfo}
       </header>
