@@ -4,6 +4,7 @@ import axios from "axios";
 
 //internal imports
 import "./App.css";
+import { AutoComplete } from "antd";
 
 function App() {
   const [phonelist, setPhoneList] = useState();
@@ -61,6 +62,7 @@ function App() {
                   ...newContactInfo,
                   name: event.target.value,
                 })
+                AutoComplete="off"
               }
             ></input>
             <input
