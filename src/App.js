@@ -8,9 +8,10 @@ import "./App.css";
 function App() {
   const [phonelist, setPhoneList] = useState();
   const [phoneInfo, setPhoneInfo] = useState();
-  const [newContactInfo, setNewContactInfo] = useState(
-  { name:"", number:""}
-  ) 
+  const [newContactInfo, setNewContactInfo] = useState({
+    name: "",
+    number: "",
+  });
 
   const handlers = {
     getPhoneList: async () => {
@@ -22,12 +23,13 @@ function App() {
     submit: async (e) => {
       console.warn("submit");
       e.preventDefault();
-      console.log(newContactInfo)
-      const rs =await axios.post("http://localhost:3001/api/persons",newContactInfo);
-      if(rs){
+      const rs = await axios.post(
+        "http://localhost:3001/api/persons",
+        newContactInfo
+      );
+      if (rs) {
         handlers.getPhoneList();
       }
-
     },
   };
 
@@ -54,14 +56,24 @@ function App() {
               placeholder="Please insert contact name"
               name="name"
               value={newContactInfo.name}
-              onChange={(event)=>setNewContactInfo({...newContactInfo, name:event.target.value})}
+              onChange={(event) =>
+                setNewContactInfo({
+                  ...newContactInfo,
+                  name: event.target.value,
+                })
+              }
             ></input>
             <input
               style={{ width: "200px" }}
               placeholder="Please insert contact number"
               name="number"
               value={newContactInfo.number}
-              onChange={(event)=>setNewContactInfo({...newContactInfo, number:event.target.value})}
+              onChange={(event) =>
+                setNewContactInfo({
+                  ...newContactInfo,
+                  number: event.target.value,
+                })
+              }
             ></input>
             <button type="html"> Submit</button>
           </div>
@@ -70,7 +82,7 @@ function App() {
         {phonelist &&
           phonelist.map((i) => (
             <ul style={{ width: "550px" }} key={i.id}>
-              {i.name} {i.number}
+              {i.name} {i.number} <button>Delete</button>
             </ul>
           ))}
         {phoneInfo}
