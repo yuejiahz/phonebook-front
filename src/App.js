@@ -1,10 +1,10 @@
 //external imports
 import { useState, useEffect } from "react";
 import axios from "axios";
+import {Table,} from 'antd';
 
 //internal imports
 import "./App.css";
-import { AutoComplete } from "antd";
 
 function App() {
   const [phonelist, setPhoneList] = useState();
@@ -22,7 +22,6 @@ function App() {
       setPhoneInfo(promise.data);
     },
     submit: async (e) => {
-      console.warn("submit");
       e.preventDefault();
       const rs = await axios.post(
         "http://localhost:3001/api/persons",
@@ -32,11 +31,18 @@ function App() {
         handlers.getPhoneList();
       }
     },
+    delete: async (id) => {
+      console.log(id);
+      const rs = await axios.delete(`http://localhost:3001/api/persons/${id}`);
+      if (rs) {
+        await handlers.getPhoneList();
+      }
+    },
   };
 
   useEffect(() => {
     handlers.getPhoneList();
-  }, []);
+  });
 
   return (
     <div className="App">
@@ -62,7 +68,6 @@ function App() {
                   ...newContactInfo,
                   name: event.target.value,
                 })
-                AutoComplete="off"
               }
             ></input>
             <input
@@ -81,13 +86,20 @@ function App() {
           </div>
         </form>
         <br />
-        {phonelist &&
-          phonelist.map((i) => (
-            <ul style={{ width: "550px" }} key={i.id}>
-              {i.name} {i.number} <button>Delete</button>
-            </ul>
-          ))}
+        <form >
+         {phonelist&&(
+          <Table columns={[{dataIndex:"name", title:"Name"},{dataIndex:"number", title:"Contact"},{ title:"Action", render:(i)=>(<button onChange={(e) => {
+            handlers.delete(i.id)}}>Delete</button>)}]}
+           pagination={false} dataSource={phonelist}
+           rowKey="id"
+           />
+         )}
+      
+          </form> 
+          <div style={{position:"absolute", bottom:0}}>
+
         {phoneInfo}
+          </div>
       </header>
     </div>
   );
