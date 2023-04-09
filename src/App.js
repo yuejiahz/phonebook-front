@@ -42,7 +42,7 @@ function App() {
 
   useEffect(() => {
     handlers.getPhoneList();
-  });
+  },[]);
 
   return (
     <div className="App">
