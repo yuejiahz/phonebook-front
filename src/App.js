@@ -1,5 +1,5 @@
 //external imports
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import {Table,} from 'antd';
 
@@ -33,15 +33,17 @@ function App() {
     },
     delete: async (id) => {
       console.log(id);
-      const rs = await axios.delete(`http://localhost:3001/api/persons/${id}`);
-      if (rs) {
-        await handlers.getPhoneList();
-      }
+      // const rs = await axios.delete(`http://localhost:3001/api/persons/${id}`);
+      // if (rs) {
+      //   await handlers.getPhoneList();
+      // }
     },
   };
 
-  useEffect(() => {
-    handlers.getPhoneList();
+  useMemo(async() => {
+    if(!phonelist){
+       await handlers.getPhoneList()
+    }
   },[]);
 
   return (
@@ -87,13 +89,13 @@ function App() {
         </form>
         <br />
         <form >
-         {phonelist&&(
-          <Table columns={[{dataIndex:"name", title:"Name"},{dataIndex:"number", title:"Contact"},{ title:"Action", render:(i)=>(<button onChange={(e) => {
-            handlers.delete(i.id)}}>Delete</button>)}]}
+          <Table columns={[{dataIndex:"name", title:"Name"},{dataIndex:"number", title:"Contact"},
+          // { title:"Action", render:(i)=>(<button onChange={(e) => {
+          //   handlers.delete(i.id)}}>Delete</button>)}
+          ]}
            pagination={false} dataSource={phonelist}
            rowKey="id"
            />
-         )}
       
           </form> 
           <div style={{position:"absolute", bottom:0}}>
