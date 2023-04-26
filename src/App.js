@@ -1,7 +1,8 @@
 //external imports
 import { useState, useEffect, useMemo } from "react";
 import axios from "axios";
-import {Table,} from 'antd';
+import {Table} from 'antd';
+
 
 //internal imports
 import "./App.css";
