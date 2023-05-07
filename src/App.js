@@ -1,8 +1,7 @@
 //external imports
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import axios from "axios";
-import {Table} from 'antd';
-
+import { Table, Button } from "antd";
 
 //internal imports
 import "./App.css";
@@ -33,19 +32,18 @@ function App() {
       }
     },
     delete: async (id) => {
-      console.log(id);
-      // const rs = await axios.delete(`http://localhost:3001/api/persons/${id}`);
-      // if (rs) {
-      //   await handlers.getPhoneList();
-      // }
+      const rs = await axios.delete(`http://localhost:3001/api/persons/${id}`);
+      if (rs) {
+        await handlers.getPhoneList();
+      }
     },
   };
 
-  useMemo(async() => {
-    if(!phonelist){
-       await handlers.getPhoneList()
+  useMemo(async () => {
+    if (!phonelist) {
+      await handlers.getPhoneList();
     }
-  },[]);
+  }, [phonelist]);
 
   return (
     <div className="App">
@@ -89,20 +87,30 @@ function App() {
           </div>
         </form>
         <br />
-        <form >
-          <Table columns={[{dataIndex:"name", title:"Name"},{dataIndex:"number", title:"Contact"},
-          // { title:"Action", render:(i)=>(<button onChange={(e) => {
-          //   handlers.delete(i.id)}}>Delete</button>)}
-          ]}
-           pagination={false} dataSource={phonelist}
-           rowKey="id"
-           />
-      
-          </form> 
-          <div style={{position:"absolute", bottom:0}}>
-
-        {phoneInfo}
-          </div>
+        <form>
+          <Table
+            columns={[
+              { dataIndex: "name", title: "Name" },
+              { dataIndex: "number", title: "Contact" },
+              {
+                title: "Action",
+                render: (data) => (
+                  <Button
+                    onClick={() => {
+                      handlers.delete(data.id);
+                    }}
+                  >
+                    Delete
+                  </Button>
+                ),
+              },
+            ]}
+            pagination={false}
+            dataSource={phonelist}
+            rowKey="id"
+          />
+        </form>
+        <div style={{ position: "absolute", bottom: 0 }}>{phoneInfo}</div>
       </header>
     </div>
   );
