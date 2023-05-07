@@ -23,13 +23,18 @@ function App() {
     },
     submit: async (e) => {
       e.preventDefault();
+      // try{
       const rs = await axios.post(
         "http://localhost:3001/api/persons",
         newContactInfo
-      );
-      if (rs) {
-        handlers.getPhoneList();
-      }
+      ).then((rs)=>{
+        if (rs) {
+          handlers.getPhoneList();
+          }
+      }).catch((err)=>{
+        console.error(err.response.data.error)
+        alert(`${err.response.data.error}`)
+      })
     },
     delete: async (id) => {
       const rs = await axios.delete(`http://localhost:3001/api/persons/${id}`);
