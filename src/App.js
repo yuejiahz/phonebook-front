@@ -1,7 +1,7 @@
 //external imports
 import { useState, useMemo } from "react";
 import axios from "axios";
-import { Table, Button } from "antd";
+import { Table, Button, Input, Row, Col, Typography} from "antd";
 
 //internal imports
 import "./App.css";
@@ -48,19 +48,13 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        Phonebook
-        <br />
+       <h1> Phonebook </h1>
         <br />
         <form onSubmit={handlers.submit}>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-around",
-              width: "550px",
-            }}
-          >
-            <input
-              style={{ width: "200px" }}
+          <Row gutter={[16,16]}>
+            <Col>
+            <Input
+              style={{ width: "300px" }}
               placeholder="Please insert contact name"
               name="name"
               value={newContactInfo.name}
@@ -70,9 +64,11 @@ function App() {
                   name: event.target.value,
                 })
               }
-            ></input>
-            <input
-              style={{ width: "200px" }}
+            ></Input>
+            </Col>
+            <Col>
+            <Input
+              style={{ width: "300px" }}
               placeholder="Please insert contact number"
               name="number"
               value={newContactInfo.number}
@@ -82,23 +78,31 @@ function App() {
                   number: event.target.value,
                 })
               }
-            ></input>
-            <button type="html"> Submit</button>
-          </div>
+            ></Input>
+            </Col>
+            <Col>
+            <Button  type="primary" htmlType="submit"> Submit</Button>
+            </Col>
+          </Row>
+           
         </form>
         <br />
+        <br />
         <form>
-          <Table
+          <Table 
+          style={{width:"1000px"}}
             columns={[
               { dataIndex: "name", title: "Name" },
               { dataIndex: "number", title: "Contact" },
               {
                 title: "Action",
+                width:200,
                 render: (data) => (
                   <Button
                     onClick={() => {
                       handlers.delete(data.id);
                     }}
+                    danger
                   >
                     Delete
                   </Button>
@@ -110,7 +114,8 @@ function App() {
             rowKey="id"
           />
         </form>
-        <div style={{ position: "absolute", bottom: 0 }}>{phoneInfo}</div>
+        <div style={{ position: "absolute", bottom: "80px", fontSize:"1.3rem" }}>
+          {phoneInfo}</div>
       </header>
     </div>
   );
