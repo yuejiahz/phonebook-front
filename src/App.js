@@ -32,6 +32,7 @@ function App() {
         .post("http://localhost:3001/api/persons", newContactInfo)
         .then((rs) => {
           if (rs) {
+            setNewContactInfo({});
             handlers.getPhoneList();
           }
         })
@@ -149,6 +150,7 @@ function App() {
           open={isModalOpen}
           onCancel={() => setIsModalOpen(false)}
           onOk={() => {
+            console.log(editFormValue);
             handlers.edit(editFormValue?.id, editFormValue);
             editForm.resetFields();
             setIsModalOpen(false);
@@ -156,9 +158,10 @@ function App() {
         >
           <Form
             form={editForm}
-            onValuesChange={(v) =>
-              setEditFormValue({ ...v, id: editFormValue?.id })
-            }
+            onValuesChange={(_, v) => {
+              setEditFormValue({ ...v, id: editFormValue?.id });
+              console.log("chan", editFormValue);
+            }}
           >
             <Row gutter={[16, 16]}>
               <Col span={12}>
@@ -175,13 +178,9 @@ function App() {
                   <Input
                     style={{ width: "300px" }}
                     placeholder="Please insert contact number"
-                    // value={newContactInfo.number}
                   ></Input>
                 </Form.Item>
               </Col>
-              {/* <Col>
-            <Button  type="primary" htmlType="submit"> Submit</Button>
-            </Col> */}
             </Row>
           </Form>
         </Modal>
