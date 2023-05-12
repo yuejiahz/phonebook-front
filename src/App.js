@@ -123,7 +123,8 @@ function App() {
                     <Button
                       onClick={() => {
                         setIsModalOpen(true);
-                        setEditFormValue({ ...editFormValue, id: data.id });
+                        setEditFormValue(data);
+                        editForm.setFieldsValue(data);
                       }}
                     >
                       Edit
@@ -150,7 +151,6 @@ function App() {
           open={isModalOpen}
           onCancel={() => setIsModalOpen(false)}
           onOk={() => {
-            console.log(editFormValue);
             handlers.edit(editFormValue?.id, editFormValue);
             editForm.resetFields();
             setIsModalOpen(false);
@@ -160,25 +160,17 @@ function App() {
             form={editForm}
             onValuesChange={(_, v) => {
               setEditFormValue({ ...v, id: editFormValue?.id });
-              console.log("chan", editFormValue);
             }}
           >
             <Row gutter={[16, 16]}>
               <Col span={12}>
                 <Form.Item name="name">
-                  <Input
-                    style={{ width: "300px" }}
-                    placeholder="Please insert contact name"
-                    // value={}
-                  ></Input>
+                  <Input placeholder="Please insert contact name"></Input>
                 </Form.Item>
               </Col>
-              <Col>
+              <Col span={12}>
                 <Form.Item name="number">
-                  <Input
-                    style={{ width: "300px" }}
-                    placeholder="Please insert contact number"
-                  ></Input>
+                  <Input placeholder="Please insert contact number"></Input>
                 </Form.Item>
               </Col>
             </Row>
