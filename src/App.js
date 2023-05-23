@@ -63,7 +63,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1> Phonebook TEST</h1>
+        <h1> Phonebook</h1>
         <br />
         <form onSubmit={handlers.submit}>
           <Row gutter={[16, 16]}>
