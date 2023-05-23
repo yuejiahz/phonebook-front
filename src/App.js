@@ -5,7 +5,6 @@ import { Table, Button, Input, Row, Col, Space, Modal, Form } from "antd";
 
 //internal imports
 import "./App.css";
-import FormItem from "antd/es/form/FormItem";
 
 function App() {
   const [phonelist, setPhoneList] = useState();
@@ -21,15 +20,15 @@ function App() {
   const [editForm] = Form.useForm();
   const handlers = {
     getPhoneList: async () => {
-      const promise = await axios.get("http://localhost:3001/info");
-      const list = await axios.get("http://localhost:3001/api/persons");
+      const promise = await axios.get("/info");
+      const list = await axios.get("/api/persons");
       setPhoneList(list.data);
       setPhoneInfo(promise.data);
     },
     submit: async (e) => {
       e.preventDefault();
       await axios
-        .post("http://localhost:3001/api/persons", newContactInfo)
+        .post("/api/persons", newContactInfo)
         .then((rs) => {
           if (rs) {
             setNewContactInfo({});
@@ -42,16 +41,13 @@ function App() {
         });
     },
     delete: async (id) => {
-      const rs = await axios.delete(`http://localhost:3001/api/persons/${id}`);
+      const rs = await axios.delete(`/api/persons/${id}`);
       if (rs) {
         await handlers.getPhoneList();
       }
     },
     edit: async (id, value) => {
-      const rs = await axios.put(
-        `http://localhost:3001/api/persons/${id}`,
-        value
-      );
+      const rs = await axios.put(`/api/persons/${id}`, value);
       if (rs) {
         await handlers.getPhoneList();
       }
@@ -67,7 +63,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1> Phonebook </h1>
+        <h1> Phonebook TEST</h1>
         <br />
         <form onSubmit={handlers.submit}>
           <Row gutter={[16, 16]}>
