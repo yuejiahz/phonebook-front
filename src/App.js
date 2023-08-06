@@ -2,11 +2,14 @@
 import { useState, useMemo } from "react";
 import axios from "axios";
 import { Table, Button, Input, Row, Col, Space, Modal, Form } from "antd";
+// require("dotenv").config();
 
 //internal imports
 import "./App.css";
 
 function App() {
+  // const baseUrl = process.env.PUBLIC_URL;
+  const baseUrl = "http://localhost:3001";
   const [phonelist, setPhoneList] = useState();
   const [phoneInfo, setPhoneInfo] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,19 +19,18 @@ function App() {
   });
   const [editFormValue, setEditFormValue] = useState();
 
-  const [form] = Form.useForm();
   const [editForm] = Form.useForm();
   const handlers = {
     getPhoneList: async () => {
-      const promise = await axios.get("/info");
-      const list = await axios.get("/api/persons");
+      const promise = await axios.get(`${baseUrl}/api/info`);
+      const list = await axios.get(`${baseUrl}/api/persons`);
       setPhoneList(list.data);
       setPhoneInfo(promise.data);
     },
     submit: async (e) => {
       e.preventDefault();
       await axios
-        .post("/api/persons", newContactInfo)
+        .post(`${baseUrl}/api/persons`, newContactInfo)
         .then((rs) => {
           if (rs) {
             setNewContactInfo({});
@@ -41,13 +43,13 @@ function App() {
         });
     },
     delete: async (id) => {
-      const rs = await axios.delete(`/api/persons/${id}`);
+      const rs = await axios.delete(`${baseUrl}/api/persons/${id}`);
       if (rs) {
         await handlers.getPhoneList();
       }
     },
     edit: async (id, value) => {
-      const rs = await axios.put(`/api/persons/${id}`, value);
+      const rs = await axios.put(`${baseUrl}/api/persons/${id}`, value);
       if (rs) {
         await handlers.getPhoneList();
       }
@@ -97,7 +99,6 @@ function App() {
             </Col>
             <Col>
               <Button type="primary" htmlType="submit">
-                {" "}
                 Submit
               </Button>
             </Col>
